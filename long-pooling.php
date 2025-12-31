@@ -12,6 +12,7 @@ use Makhnanov\Telegram81\Api\B;
 $bot = B::api((getenv('BOT_TOKEN') ?: throw new Exception('BOT_TOKEN empty')));
 $channelId = '-100' . (getenv('CHANNEL_ID') ?: throw new Exception('CHANNEL_ID empty'));
 $groupId = (int)('-100' . (getenv('GROUP_ID') ?: throw new Exception('GROUP_ID empty')));
+$groupUrl = getenv('GROUP_URL') ?: throw new Exception('GROUP_URL empty');
 
 while (true) {
     try {
@@ -42,7 +43,7 @@ while (true) {
 
 function sendChannelNotification(): void
 {
-    global $bot, $channelId;
+    global $bot, $channelId, $groupUrl;
     $bot->sendMessage(
         $channelId,
         'Внимание!' . PHP_EOL . 'Возможно, начилась запись на новую ближайшую игру:',
@@ -51,7 +52,7 @@ function sendChannelNotification(): void
                 [
                     [
                         'text' => 'Проверить группу',
-                        'url' => 'https://t.me/+ByceW9EsBmQ2Yjgy',
+                        'url' => $groupUrl,
                     ]
                 ]
             ]
