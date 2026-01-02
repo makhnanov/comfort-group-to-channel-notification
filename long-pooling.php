@@ -14,6 +14,8 @@ $channelId = '-100' . (getenv('CHANNEL_ID') ?: throw new Exception('CHANNEL_ID e
 $groupId = (int)('-100' . (getenv('GROUP_ID') ?: throw new Exception('GROUP_ID empty')));
 $groupUrl = getenv('GROUP_URL') ?: throw new Exception('GROUP_URL empty');
 
+define('DEV', getenv('DEV') === 'true');
+
 while (true) {
     try {
         $updates = $bot->getUpdates(timeout: 60);
@@ -46,7 +48,7 @@ function sendChannelNotification(): void
     global $bot, $channelId, $groupUrl;
     $bot->sendMessage(
         $channelId,
-        'Внимание!' . PHP_EOL . 'Возможно, начилась запись на новую ближайшую игру:',
+        'Внимание!' . PHP_EOL . 'Возможно, начилась запись на новую ближайшую игру: ' . (DEV ? '(TEST)': ''),
         reply_markup: [
             'inline_keyboard' => [
                 [
